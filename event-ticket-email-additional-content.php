@@ -67,7 +67,7 @@ if ( ! class_exists( '' ) ) {
 			add_action( 'add_meta_boxes', array($this, 'etpeac_metabox_create') );
 			add_action( 'save_post',  array($this, 'etpeac_meta_save'), 10, 3);
 			add_action( 'tribe_tickets_ticket_email_ticket_top', array($this,'etpeac_store_event_id') );
-			add_action( 'tribe_tickets_ticket_email_bottom', array($this,'etpeac_add_additional_content') );
+			//add_action( 'tribe_tickets_ticket_email_bottom', array($this,'etpeac_add_additional_content') );
 		}
 
 
@@ -154,6 +154,33 @@ if ( ! class_exists( '' ) ) {
 
 		public function etpeac_store_event_id($ticket){
 			$this->event_id = $ticket['event_id'];
+
+			$args = array(
+				'post_type'     => 'eemailcontent',
+				'meta_query' => array(
+					array(
+						'key' => 'event_id',
+						'value' =>  $this->event_id,
+						'compare' => '=',
+					)
+				)
+			);
+
+
+			$query = new WP_Query($args);
+			echo '<table class="content" align="center" width="620" cellspacing="0" cellpadding="0" border="0" bgcolor="#ffffff" style="margin:0 auto; padding:0; margin: top -100px">';
+			echo '<tr>';
+			echo '<td style="text-align: left; color: #555;">';
+			if( $query->have_posts() ){
+				while ($query->have_posts()){
+					$query->the_post();
+					wpautop(the_content());
+					break;
+				}
+			}
+			echo '</td>';
+			echo '</tr>';
+			echo '<table>';
 		}
 
 
@@ -172,9 +199,9 @@ if ( ! class_exists( '' ) ) {
 
 
 			$query = new WP_Query($args);
-			echo '<table class="content" align="center" width="620" cellspacing="0" cellpadding="0" border="0" bgcolor="#f7f7f7" style="margin:0 auto; padding:0;">';
+			echo '<table class="content" align="center" width="620" cellspacing="0" cellpadding="0" border="0" bgcolor="#ffffff" style="margin:20px auto; padding:0; margin: top -100px">';
 			echo '<tr>';
-			echo '<td style="text-align: left; color: #555; padding: 20px">';
+			echo '<td style="text-align: left; color: #555;">';
 			if( $query->have_posts() ){
 				while ($query->have_posts()){
 					$query->the_post();
@@ -187,6 +214,8 @@ if ( ! class_exists( '' ) ) {
 			echo '<table>';
 
 		}
+
+
 
 	}
 
