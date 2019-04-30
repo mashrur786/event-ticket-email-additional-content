@@ -1,4 +1,4 @@
-# Event-ticket-email-additional-content
+# Event-ticket-email-additional-content (Wordpress Plugin)
 
 This is a companion plugin for Tribe Event Tickets. It creates wordpress custom post type whcich can then be inserted in the emails which sends ticket to the user
 
